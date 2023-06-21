@@ -1,6 +1,5 @@
-package com.example.demo.Controllers;
+package com.example.demo;
 
-import com.example.demo.TestUtils;
 import com.example.demo.controllers.CartController;
 import com.example.demo.controllers.ItemController;
 import com.example.demo.controllers.OrderController;
@@ -29,7 +28,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-public class UserControllerTest {
+public class ControllerTest {
 
     private UserController userController;
     private ItemController itemController;
@@ -102,83 +101,84 @@ public class UserControllerTest {
         Assert.assertEquals(400, response.getStatusCodeValue());
     }
 
-//    @Test
-//    public void itemControllerTest(){
-//        Item items = new Item();
-//        items.setDescription("Book");
-//        items.setId(0L);
-//        items.setName("The Power of Now");
-//        items.setPrice(new BigDecimal(50.00));
-//        List<Item> itemList = new ArrayList<>();
-//        itemList.add(items);
-//        when(itemRepository.findById(anyLong())).thenReturn(java.util.Optional.of(items));
-//        ResponseEntity<Item> responseEntity = itemController.getItemById(0L);
-//        Assert.assertNotNull(responseEntity);
-//        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
-//
-//        when(itemRepository.findByName(anyString())).thenReturn(itemList);
-//        ResponseEntity<List<Item>> responseEntityList = itemController.getItemsByName(items.getName());
-//        Assert.assertNotNull(responseEntityList);
-//        Assert.assertEquals(200, responseEntityList.getStatusCodeValue());
-//    }
-//
-//    @Test
-//    public void cartControllerTest() throws IOException {
-//        User user = new User();
-//        user.setUsername("test");
-//
-//        Cart cart = new Cart();
-//        user.setCart(cart);
-//
-//        Item items = new Item();
-//        items.setDescription("Book");
-//        items.setId(0L);
-//        items.setName("Beloved");
-//        items.setPrice(new BigDecimal(50.00));
-//
-//        cart.addItem(items);
-//
-//        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
-//        modifyCartRequest.setItemId(0L);
-//        modifyCartRequest.setUsername("test");
-//        modifyCartRequest.setQuantity(1);
-//
-//        when(userRepository.findByUsername(anyString())).thenReturn(user);
-//        when(itemRepository.findById(anyLong())).thenReturn(Optional.of(items));
-//        ResponseEntity<Cart> responseEntity = cartController.addTocart(modifyCartRequest);
-//        Assert.assertNotNull(responseEntity);
-//        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
-//
-//        responseEntity = cartController.removeFromcart(modifyCartRequest);
-//        Assert.assertNotNull(responseEntity);
-//        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
-//
-//    }
-//
-//    @Test
-//    public void orderControllerTest(){
-//
-//        User user = new User();
-//        user.setUsername("test");
-//        when(userRepository.findByUsername(anyString())).thenReturn(user);
-//        Cart cart = new Cart();
-//
-//        Item items = new Item();
-//        items.setDescription("Book");
-//        items.setId(0L);
-//        items.setName("12 Rules of Life");
-//        items.setPrice(new BigDecimal(50.00));
-//
-//        cart.addItem(items);
-//        user.setCart(cart);
-//        ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit(user.getUsername());
-//        Assert.assertNotNull(userOrderResponseEntity);
-//        Assert.assertEquals(200, userOrderResponseEntity.getStatusCodeValue());
-//
-//        ResponseEntity<List<UserOrder>> ordersList = orderController.getOrdersForUser(user.getUsername());
-//
-//        Assert.assertNotNull(ordersList);
-//        Assert.assertEquals(200, ordersList.getStatusCodeValue());
-//
-//    }
+    @Test
+    public void itemControllerTest(){
+        Item items = new Item();
+        items.setDescription("Book");
+        items.setId(0L);
+        items.setName("The Power of Now");
+        items.setPrice(new BigDecimal(50.00));
+        List<Item> itemList = new ArrayList<>();
+        itemList.add(items);
+        when(itemRepository.findById(anyLong())).thenReturn(java.util.Optional.of(items));
+        ResponseEntity<Item> responseEntity = itemController.getItemById(0L);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
+
+        when(itemRepository.findByName(anyString())).thenReturn(itemList);
+        ResponseEntity<List<Item>> responseEntityList = itemController.getItemsByName(items.getName());
+        Assert.assertNotNull(responseEntityList);
+        Assert.assertEquals(200, responseEntityList.getStatusCodeValue());
+    }
+
+    @Test
+    public void orderControllerTest(){
+
+        User user = new User();
+        user.setUsername("test");
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
+        Cart cart = new Cart();
+
+        Item items = new Item();
+        items.setDescription("Book");
+        items.setId(0L);
+        items.setName("12 Rules of Life");
+        items.setPrice(new BigDecimal(50.00));
+
+        cart.addItem(items);
+        user.setCart(cart);
+        ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit(user.getUsername());
+        Assert.assertNotNull(userOrderResponseEntity);
+        Assert.assertEquals(200, userOrderResponseEntity.getStatusCodeValue());
+
+        ResponseEntity<List<UserOrder>> ordersList = orderController.getOrdersForUser(user.getUsername());
+
+        Assert.assertNotNull(ordersList);
+        Assert.assertEquals(200, ordersList.getStatusCodeValue());
+
+    }
+
+    @Test
+    public void cartControllerTest() throws IOException {
+        User user = new User();
+        user.setUsername("test");
+
+        Cart cart = new Cart();
+        user.setCart(cart);
+
+        Item items = new Item();
+        items.setDescription("Book");
+        items.setId(0L);
+        items.setName("Beloved");
+        items.setPrice(new BigDecimal(50.00));
+
+        cart.addItem(items);
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(0L);
+        modifyCartRequest.setUsername("test");
+        modifyCartRequest.setQuantity(1);
+
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
+        when(itemRepository.findById(anyLong())).thenReturn(Optional.of(items));
+        ResponseEntity<Cart> responseEntity = cartController.addTocart(modifyCartRequest);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
+
+        responseEntity = cartController.removeFromcart(modifyCartRequest);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
+
+    }
+
 }
