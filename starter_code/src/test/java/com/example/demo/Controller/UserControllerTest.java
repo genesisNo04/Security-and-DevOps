@@ -97,9 +97,9 @@ public class UserControllerTest {
         User userResult = response.getBody();
         when(userRepository.findByUsername("test")).thenReturn(userResult);
 
-        final ResponseEntity<User> userResponseEntity = userController.findByUserName(user.getUsername());
+        final ResponseEntity<User> responseTest = userController.findByUserName(user.getUsername());
 
-        User u = userResponseEntity.getBody();
+        User u = responseTest.getBody();
         Assert.assertNotNull(u);
         Assert.assertEquals(0, u.getId());
         Assert.assertEquals("test", u.getUsername());
@@ -109,20 +109,20 @@ public class UserControllerTest {
     @Test
     public void testFindById(){
         when(encoder.encode("test1234")).thenReturn("thisIsHashed");
-        CreateUserRequest r = new CreateUserRequest();
-        r.setUsername("test");
-        r.setPassword("test1234");
-        r.setConfirmPassword("test1234");
-        final ResponseEntity<User> response = userController.createUser(r);
-        User user = response.getBody();
-        when(userRepository.findById(0L)).thenReturn(java.util.Optional.ofNullable(user));
+        CreateUserRequest user = new CreateUserRequest();
+        user.setUsername("test");
+        user.setPassword("test1234");
+        user.setConfirmPassword("test1234");
+        final ResponseEntity<User> response = userController.createUser(user);
+        User userResult = response.getBody();
+        when(userRepository.findById(0L)).thenReturn(java.util.Optional.ofNullable(userResult));
 
-        final ResponseEntity<User> userResponseEntity = userController.findById(0L);
+        final ResponseEntity<User> responseTest = userController.findById(0L);
 
-        User u = userResponseEntity.getBody();
-        Assert.assertNotNull(u);
-        Assert.assertEquals(0, u.getId());
-        Assert.assertEquals("test", u.getUsername());
-        Assert.assertEquals("thisIsHashed", u.getPassword());
+        User userResponse = responseTest.getBody();
+        Assert.assertNotNull(userResponse);
+        Assert.assertEquals(0, userResponse.getId());
+        Assert.assertEquals("test", userResponse.getUsername());
+        Assert.assertEquals("thisIsHashed", userResponse.getPassword());
     }
 }
