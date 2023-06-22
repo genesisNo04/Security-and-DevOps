@@ -61,7 +61,7 @@ public class UserController {
 		logger.info("username " + createUserRequest.getUsername());
 		cartRepository.save(cart);
 		user.setCart(cart);
-		if(createUserRequest.getPassword().length()<7 ||
+		if(createUserRequest.getPassword().length() < 7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
 			logger.error("Please check entered password and enter again");
 			return ResponseEntity.badRequest().build();

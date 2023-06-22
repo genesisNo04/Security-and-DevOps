@@ -30,10 +30,10 @@ import static org.mockito.Mockito.*;
 
 public class ControllerTest {
 
-    private UserController userController;
-    private ItemController itemController;
-    private CartController cartController;
-    private OrderController orderController;
+    private static UserController userController;
+    private static ItemController itemController;
+    private static CartController cartController;
+    private static OrderController orderController;
 
     private UserRepository userRepository = mock(UserRepository.class);
 
@@ -89,7 +89,6 @@ public class ControllerTest {
 
     @Test
     public void createUserIncorrectConfirmPassword() throws Exception {
-        when(encoder.encode("testPassword")).thenReturn("thisIsHashed");
         CreateUserRequest r = new CreateUserRequest();
         r.setUsername("test1");
         r.setPassword("testPassword");
@@ -100,6 +99,67 @@ public class ControllerTest {
         Assert.assertNotNull(response);
         Assert.assertEquals(400, response.getStatusCodeValue());
     }
+
+    @Test
+    public void createPasswordLessThanSeven() throws Exception {
+        CreateUserRequest user = new CreateUserRequest();
+        user.setUsername("test");
+        user.setPassword("test");
+        user.setConfirmPassword("test");
+
+        final ResponseEntity<User> response = userController.createUser(user);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(400, response.getStatusCodeValue());
+    }
+
+    @Test
+    public void createDuplicateUser() throws Exception {
+        User user2 = new User();
+        user2.setUsername("test");
+        Cart cart = new Cart();
+        cartRepository.save(cart);
+        user2.setPassword("test1234");
+        user2.setCart(cart);
+        User result = userRepository.save(user2);
+        when(userRepository.save(user2)).thenReturn(result);
+
+        CreateUserRequest user = new CreateUserRequest();
+        user.setUsername("test");
+        user.setPassword("test1234");
+        user.setConfirmPassword("test1234");
+
+        final ResponseEntity<User> response = userController.createUser(user);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(200, response.getStatusCodeValue());
+
+    }
+
+    @Test
+    public void findUsername() throws Exception {
+        when(encoder.encode("testPassword")).thenReturn("thisIsHashed");
+        CreateUserRequest user = new CreateUserRequest();
+        user.setUsername("test");
+        user.setPassword("test1234");
+        user.setConfirmPassword("test1234");
+
+        ResponseEntity<User> response = userController.createUser(user);
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(200, response.getStatusCodeValue());
+
+        ResponseEntity<User> responseSearch = userController.findByUserName(user.getUsername());
+
+        Assert.assertNotNull(responseSearch);
+        Assert.assertEquals(200, responseSearch.getStatusCodeValue());
+
+        ResponseEntity<User> responseNotFound = userController.findByUserName("testNotFound");
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(404, response.getStatusCodeValue());
+    }
+
 
     @Test
     public void itemControllerTest(){
@@ -151,22 +211,22 @@ public class ControllerTest {
     @Test
     public void cartControllerTest() throws IOException {
         User user = new User();
-        user.setUsername("test");
+        user.setUsername("testCart");
 
         Cart cart = new Cart();
         user.setCart(cart);
 
         Item items = new Item();
-        items.setDescription("Book");
+        items.setDescription("Toys");
         items.setId(0L);
-        items.setName("Beloved");
+        items.setName("Mermaid");
         items.setPrice(new BigDecimal(50.00));
 
         cart.addItem(items);
 
         ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
         modifyCartRequest.setItemId(0L);
-        modifyCartRequest.setUsername("test");
+        modifyCartRequest.setUsername("testCart");
         modifyCartRequest.setQuantity(1);
 
         when(userRepository.findByUsername(anyString())).thenReturn(user);
