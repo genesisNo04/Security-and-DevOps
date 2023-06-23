@@ -33,20 +33,21 @@ public class ItemControllerTest {
 
     @Test
     public void itemControllerTest(){
-        Item items = new Item();
-        items.setDescription("Book");
-        items.setId(0L);
-        items.setName("The Power of Now");
-        items.setPrice(new BigDecimal(50.00));
+        Item item = new Item();
+        item.setDescription("Toy");
+        item.setId(0L);
+        item.setName("Mermaid");
+        item.setPrice(new BigDecimal(50.00));
+
         List<Item> itemList = new ArrayList<>();
-        itemList.add(items);
-        when(itemRepository.findById(anyLong())).thenReturn(java.util.Optional.of(items));
+        itemList.add(item);
+        when(itemRepository.findById(anyLong())).thenReturn(java.util.Optional.of(item));
         ResponseEntity<Item> responseEntity = itemController.getItemById(0L);
         Assert.assertNotNull(responseEntity);
         Assert.assertEquals(200, responseEntity.getStatusCodeValue());
 
         when(itemRepository.findByName(anyString())).thenReturn(itemList);
-        ResponseEntity<List<Item>> responseEntityList = itemController.getItemsByName(items.getName());
+        ResponseEntity<List<Item>> responseEntityList = itemController.getItemsByName(item.getName());
         Assert.assertNotNull(responseEntityList);
         Assert.assertEquals(200, responseEntityList.getStatusCodeValue());
     }
@@ -55,14 +56,14 @@ public class ItemControllerTest {
     public void getItems (){
         Item item0 = new Item();
         item0.setId(1L);
-        item0.setName("Round Widget");
-        item0.setDescription("A widget that is Round");
+        item0.setName("Round cake");
+        item0.setDescription("A round cake");
         item0.setPrice(new BigDecimal("2.99"));
 
         Item item1 = new Item();
         item1.setId(1L);
-        item1.setName("Square Widget");
-        item1.setDescription("A widget that is square");
+        item1.setName("Square cake");
+        item1.setDescription("A square cake");
         item1.setPrice(new BigDecimal("1.99"));
 
         List<Item> itemList = new ArrayList<>();
@@ -83,8 +84,8 @@ public class ItemControllerTest {
     public void testGetItemById(){
         Item item1 = new Item();
         item1.setId(1L);
-        item1.setName("Square Widget");
-        item1.setDescription("A widget that is square");
+        item1.setName("Square cake");
+        item1.setDescription("A square cake");
         item1.setPrice(new BigDecimal("1.99"));
         when(itemRepository.findById(1L)).thenReturn(java.util.Optional.of(item1));
 
@@ -100,13 +101,13 @@ public class ItemControllerTest {
     public void testGetItemByName(){
         Item item1 = new Item();
         item1.setId(1L);
-        item1.setName("Square Widget");
-        item1.setDescription("A widget that is square");
+        item1.setName("Square cake");
+        item1.setDescription("A square cake");
         item1.setPrice(new BigDecimal("1.99"));
         List<Item> itemList= new ArrayList<>(); itemList.add(item1);
-        when(itemRepository.findByName("Square Widget")).thenReturn(itemList);
+        when(itemRepository.findByName("Square cake")).thenReturn(itemList);
 
-        ResponseEntity<List<Item>> response = itemController.getItemsByName("Square Widget");
+        ResponseEntity<List<Item>> response = itemController.getItemsByName("Square cake");
         Assert.assertNotNull(response);
         Assert.assertEquals(200, response.getStatusCodeValue());
         List<Item> obtainedItems= response.getBody();

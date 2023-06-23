@@ -48,9 +48,9 @@ public class OrderControllerTest {
         user.setId(0L);
 
         Item item = new Item();
-        item.setDescription("Book");
+        item.setDescription("Toy");
         item.setId(0L);
-        item.setName("12 Rules of Life");
+        item.setName("Mermaid");
         item.setPrice(new BigDecimal(50.00));
 
         Cart cart = new Cart();
@@ -58,7 +58,7 @@ public class OrderControllerTest {
         List<Item> itemList = new ArrayList<>();
         itemList.add(item);
         cart.setItems(itemList);
-        cart.setTotal(new BigDecimal("2.99"));
+        cart.setTotal(new BigDecimal("5.00"));
         cart.setUser(user);
         user.setCart(cart);
         when(userRepository.findByUsername(username)).thenReturn(null);
@@ -77,13 +77,13 @@ public class OrderControllerTest {
         when(userRepository.findByUsername(anyString())).thenReturn(user);
         Cart cart = new Cart();
 
-        Item items = new Item();
-        items.setDescription("Book");
-        items.setId(0L);
-        items.setName("12 Rules of Life");
-        items.setPrice(new BigDecimal(50.00));
+        Item item = new Item();
+        item.setDescription("Toy");
+        item.setId(0L);
+        item.setName("Mermaid");
+        item.setPrice(new BigDecimal(50.00));
 
-        cart.addItem(items);
+        cart.addItem(item);
         user.setCart(cart);
         ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit(user.getUsername());
         Assert.assertNotNull(userOrderResponseEntity);
@@ -104,9 +104,9 @@ public class OrderControllerTest {
         user.setId(0L);
 
         Item item = new Item();
-        item.setDescription("Book");
+        item.setDescription("Toy");
         item.setId(0L);
-        item.setName("12 Rules of Life");
+        item.setName("Mermaid");
         item.setPrice(new BigDecimal(50.00));
 
         Cart cart = new Cart();
@@ -136,9 +136,9 @@ public class OrderControllerTest {
         user.setId(0L);
 
         Item item = new Item();
-        item.setDescription("Book");
+        item.setDescription("Toy");
         item.setId(0L);
-        item.setName("12 Rules of Life");
+        item.setName("Mermaid");
         item.setPrice(new BigDecimal(50.00));
 
         Cart cart = new Cart();
